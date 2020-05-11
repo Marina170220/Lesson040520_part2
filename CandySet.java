@@ -142,7 +142,7 @@ class CandySetForChildren extends CandySet {
                 boxFilling++;
                 amountOfChocolateBar--;
             }
-            if (value.getCandyType().equals("Lollipop") && amountOfLollipops <= findAmountOfWrappedCandies()) {
+            if (value.getCandyType().equals("Lollipop") && amountOfWrappedCandies!=0 && amountOfLollipops <= findAmountOfWrappedCandies()) {
                 candyDone[boxFilling] = value;
                 boxFilling++;
                 amountOfLollipops++;
