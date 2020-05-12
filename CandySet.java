@@ -139,8 +139,7 @@ class CandySetForChildren extends CandySet {
         boolean checkCandiesWithAlcohol = !value.getFilling().equals("Alcohol");
         boolean typeWrappedCandy = value.getCandyType().equals("WrappedCandy");
         boolean checkAmountOfCandies = boxFilling < setSize;
-        if (checkAmountOfCandies) {
-            if (checkCandiesWithAlcohol) {
+        if (checkAmountOfCandies && checkCandiesWithAlcohol) {
                 if (value.getCandyType().equals("ChocolateBar") && amountOfChocolateBar < 1) {
                     candyDone[boxFilling] = value;
                     boxFilling++;
@@ -171,7 +170,6 @@ class CandySetForChildren extends CandySet {
                 }
             }
         }
-    }
 
     public void congratulation() {
         System.out.println("Happy New Year!");
