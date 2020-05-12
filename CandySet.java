@@ -15,7 +15,6 @@ package kompjuterIya.lesson040520;
 //c) Не более двух чупа-чупсов для мужского и женского наборов
 //d) Ни одной конфеты с коньяком для детского набора
 
-
 public abstract class CandySet {
     public Candy[] getCandyDone() {
         return candyDone;
@@ -35,22 +34,16 @@ public abstract class CandySet {
     int amountOfCandiesWithAlcohol;
     int amountOfCandiesWithNuts;
     int amountOfCandiesWithCream;
+    int boxFilling;
 
-
-    CandySet(String boxShape, int setSize, int amountOfChocolateBar, int amountOfLollipops) {
+    CandySet(String boxShape, int setSize) {
         this.boxShape = boxShape;
         this.setSize = setSize;
-        this.amountOfChocolateBar = amountOfChocolateBar;
-        this.amountOfLollipops = amountOfLollipops;
-    }
-
-    protected CandySet() {
     }
 
     public int findAmountOfWrappedCandies() {
         amountOfWrappedCandies = setSize - (amountOfLollipops + amountOfChocolateBar);
-        int amountOfEachSortOfWrappedCandies = amountOfWrappedCandies / (candyDone.length - 2);
-        return amountOfEachSortOfWrappedCandies;
+        return amountOfWrappedCandies / (Main.candyAll.length - 2);
     }
 
     public void congratulation() {
@@ -58,46 +51,61 @@ public abstract class CandySet {
     }
 
     void fillCandySet(Candy value) {
-        int boxFilling = 0;
-        amountOfCandiesWithAlcohol = 0;
-        amountOfCandiesWithNuts = 0;
-        amountOfCandiesWithCream = 0;
-        if (value.getCandyType().equals("ChocolateBar") && amountOfChocolateBar != 0) {
-            candyDone[boxFilling] = value;
-            boxFilling++;
-            amountOfChocolateBar--;
+        boolean typeWrappedCandy = value.getCandyType().equals("WrappedCandy");
+        boolean checkAmountOfCandies = boxFilling < setSize;
+        if (checkAmountOfCandies) {
+            if (value.getCandyType().equals("ChocolateBar") && amountOfChocolateBar < 1) {
+                candyDone[boxFilling] = value;
+                boxFilling++;
+                amountOfChocolateBar++;
+            }
+            if (value.getCandyType().equals("Lollipop") && amountOfLollipops < 2) {
+                candyDone[boxFilling] = value;
+                boxFilling++;
+                amountOfLollipops++;
+            }
+            if (typeWrappedCandy) {
+                switch (value.getFilling()) {
+                    case "Alcohol":
+                        if (amountOfCandiesWithAlcohol <= findAmountOfWrappedCandies()) {
+                            candyDone[boxFilling] = value;
+                            boxFilling++;
+                            amountOfCandiesWithAlcohol++;
+                        }
+                        break;
+                    case "Nuts":
+                        if (amountOfCandiesWithNuts <= findAmountOfWrappedCandies()) {
+                            candyDone[boxFilling] = value;
+                            boxFilling++;
+                            amountOfCandiesWithNuts++;
+                        }
+                        break;
+                    case "Cream":
+                        if (amountOfCandiesWithCream <= findAmountOfWrappedCandies()) {
+                            candyDone[boxFilling] = value;
+                            boxFilling++;
+                            amountOfCandiesWithCream++;
+                        }
+                        break;
+                }
+            }
         }
-        if (value.getCandyType().equals("Lollipop") && amountOfLollipops != 0) {
-            candyDone[boxFilling] = value;
-            boxFilling++;
-            amountOfLollipops--;
-        }
-        if (value.getCandyType().equals("WrappedCandy") && value.getFilling().equals("Alcohol") && amountOfWrappedCandies != 0 && amountOfCandiesWithAlcohol <= findAmountOfWrappedCandies()) {
-            candyDone[boxFilling] = value;
-            boxFilling++;
-            amountOfCandiesWithAlcohol++;
-            amountOfWrappedCandies--;
-        }
-        if (value.getCandyType().equals("WrappedCandy") && value.getFilling().equals("Nuts") && amountOfWrappedCandies != 0 && amountOfCandiesWithNuts <= findAmountOfWrappedCandies()) {
-            candyDone[boxFilling] = value;
-            boxFilling++;
-            amountOfCandiesWithNuts++;
-            amountOfWrappedCandies--;
-        }
-        if (value.getCandyType().equals("WrappedCandy") && value.getFilling().equals("Cream") && amountOfWrappedCandies != 0 && amountOfCandiesWithCream <= findAmountOfWrappedCandies()) {
-            candyDone[boxFilling] = value;
-            boxFilling++;
-            amountOfCandiesWithCream++;
-            amountOfWrappedCandies--;
-        }
-        System.out.println("Add a " + value.getCandyType() + " in a set");
+    }
+
+    public void showInfo() {
+        System.out.println("Candy set contains " + boxFilling + " candies" +
+                "\nincluding " + amountOfChocolateBar + " chocolate bar," +
+                "\n" + amountOfLollipops + " lollipops," +
+                "\n" + amountOfCandiesWithAlcohol + " wrapped candies with alcohol filling," +
+                "\n" + amountOfCandiesWithNuts + " wrapped candies with nut filling," +
+                "\n" + amountOfCandiesWithCream + " wrapped candies with cream filling,\n");
     }
 }
 
 class CandySetForMen extends CandySet {
 
-    CandySetForMen(String boxShape, int setSize, int amountOfChocolateBar, int amountOfLollipops) {
-        super(boxShape, setSize, amountOfChocolateBar, amountOfLollipops);
+    CandySetForMen(String boxShape, int setSize) {
+        super(boxShape, setSize);
     }
 
     public void congratulation() {
@@ -107,8 +115,8 @@ class CandySetForMen extends CandySet {
 
 class CandySetForWomen extends CandySet {
 
-    CandySetForWomen(String boxShape, int setSize, int amountOfChocolateBar, int amountOfLollipops) {
-        super(boxShape, setSize, amountOfChocolateBar, amountOfLollipops);
+    CandySetForWomen(String boxShape, int setSize) {
+        super(boxShape, setSize);
     }
 
     public void congratulation() {
@@ -118,50 +126,50 @@ class CandySetForWomen extends CandySet {
 
 class CandySetForChildren extends CandySet {
 
-    CandySetForChildren(String boxShape, int setSize, int amountOfChocolateBar, int amountOfCandiesWithAlcohol) {
-        this.boxShape = boxShape;
-        this.setSize = setSize;
-        this.amountOfChocolateBar = amountOfChocolateBar;
-        this.amountOfCandiesWithAlcohol = amountOfCandiesWithAlcohol;
+    CandySetForChildren(String boxShape, int setSize) {
+        super(boxShape, setSize);
     }
 
     public int findAmountOfWrappedCandies() {
-        amountOfWrappedCandies = setSize - (amountOfChocolateBar + amountOfCandiesWithAlcohol);
-        int amountOfEachSortOfWrappedCandies = amountOfWrappedCandies / (candyDone.length - 2);
-        return amountOfEachSortOfWrappedCandies;
+        amountOfWrappedCandies = setSize - amountOfChocolateBar;
+        return amountOfWrappedCandies / (Main.candyAll.length - 2);
     }
 
     void fillCandySet(Candy value) {
-        int boxFilling = 0;
-        amountOfCandiesWithNuts = 0;
-        amountOfCandiesWithCream = 0;
-        amountOfLollipops = 0;
-        if (!value.getFilling().equals("Alcohol")) {
-            if (value.getCandyType().equals("ChocolateBar") && amountOfChocolateBar != 0) {
-                candyDone[boxFilling] = value;
-                boxFilling++;
-                amountOfChocolateBar--;
+        boolean checkCandiesWithAlcohol = !value.getFilling().equals("Alcohol");
+        boolean typeWrappedCandy = value.getCandyType().equals("WrappedCandy");
+        boolean checkAmountOfCandies = boxFilling < setSize;
+        if (checkAmountOfCandies) {
+            if (checkCandiesWithAlcohol) {
+                if (value.getCandyType().equals("ChocolateBar") && amountOfChocolateBar < 1) {
+                    candyDone[boxFilling] = value;
+                    boxFilling++;
+                    amountOfChocolateBar++;
+                }
+                if (value.getCandyType().equals("Lollipop") && amountOfLollipops <= findAmountOfWrappedCandies()) {
+                    candyDone[boxFilling] = value;
+                    boxFilling++;
+                    amountOfLollipops++;
+                }
+                if (typeWrappedCandy) {
+                    switch (value.getFilling()) {
+                        case "Nuts":
+                            if (amountOfCandiesWithNuts <= findAmountOfWrappedCandies()) {
+                                candyDone[boxFilling] = value;
+                                boxFilling++;
+                                amountOfCandiesWithNuts++;
+                            }
+                            break;
+                        case "Cream":
+                            if (amountOfCandiesWithCream <= findAmountOfWrappedCandies()) {
+                                candyDone[boxFilling] = value;
+                                boxFilling++;
+                                amountOfCandiesWithCream++;
+                            }
+                            break;
+                    }
+                }
             }
-            if (value.getCandyType().equals("Lollipop") && amountOfWrappedCandies!=0 && amountOfLollipops <= findAmountOfWrappedCandies()) {
-                candyDone[boxFilling] = value;
-                boxFilling++;
-                amountOfLollipops++;
-                amountOfWrappedCandies--;
-            }
-
-            if (value.getCandyType().equals("WrappedCandy") && value.getFilling().equals("Nuts") && amountOfWrappedCandies != 0 && amountOfCandiesWithNuts <= findAmountOfWrappedCandies()) {
-                candyDone[boxFilling] = value;
-                boxFilling++;
-                amountOfCandiesWithNuts++;
-                amountOfWrappedCandies--;
-            }
-            if (value.getCandyType().equals("WrappedCandy") && value.getFilling().equals("Cream") && amountOfWrappedCandies != 0 && amountOfCandiesWithCream <= findAmountOfWrappedCandies()) {
-                candyDone[boxFilling] = value;
-                boxFilling++;
-                amountOfCandiesWithCream++;
-                amountOfWrappedCandies--;
-            }
-            System.out.println("Add a " + value.getCandyType() + " in a set");
         }
     }
 
