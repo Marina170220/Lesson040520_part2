@@ -43,7 +43,7 @@ public abstract class CandySet {
 
     public int findAmountOfWrappedCandies() {
         amountOfWrappedCandies = setSize - (amountOfLollipops + amountOfChocolateBar);
-        return amountOfWrappedCandies / (Main.candyAll.length - 2);
+        return amountOfWrappedCandies / (Main.candyAll.size() - 2);
     }
 
     public void congratulation() {
@@ -132,7 +132,7 @@ class CandySetForChildren extends CandySet {
 
     public int findAmountOfWrappedCandies() {
         amountOfWrappedCandies = setSize - amountOfChocolateBar;
-        return amountOfWrappedCandies / (Main.candyAll.length - 2);
+        return amountOfWrappedCandies / (Main.candyAll.size() - 2);
     }
 
     void fillCandySet(Candy value) {
