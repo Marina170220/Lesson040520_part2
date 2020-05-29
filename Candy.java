@@ -25,4 +25,12 @@ public class Candy {
         this.candyType = candyType;
         this.filling = filling;
     }
+
+    @Override
+    public String toString() {
+        return "Candy{" +
+                "candyType='" + candyType + '\'' +
+                ", filling='" + filling + '\'' +
+                '}';
+    }
 }
