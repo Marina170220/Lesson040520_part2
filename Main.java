@@ -1,24 +1,35 @@
 package kompjuterIya.lesson040520;
 
-public class Main {
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-    static Candy[] candyAll = new Candy[5];
+public class Main {
+    static Scanner scanner;
+    static List<Candy> candyAll=new ArrayList<>();
 
     public static void main(String[] args) {
+        {
+            try {
+                scanner = new Scanner(new File("src\\Candy.txt"));
+                while (scanner.hasNext()) {
+                    candyAll.add(new Candy(scanner.next(), scanner.next()));
+                }
+                scanner.close();
 
-        candyAll[0] = new Candy("ChocolateBar", "Chocolate");
-        candyAll[1] = new Candy("Lollipop", "Gum");
-        candyAll[2] = new Candy("WrappedCandy", "Alcohol");
-        candyAll[3] = new Candy("WrappedCandy", "Nuts");
-        candyAll[4] = new Candy("WrappedCandy", "Cream");
-
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         CandySet setForMan = new CandySetForMen("Square", 25);
         setForMan.setCandyDone(new Candy[setForMan.setSize]);
         setForMan.congratulation();
         for (int j = 0; j < setForMan.setSize; j++) {
-            for (int i = 0; i < candyAll.length; i++) {
-                setForMan.fillCandySet(candyAll[i]);
+            for (int i = 0; i < candyAll.size(); i++) {
+                setForMan.fillCandySet(candyAll.get(i));
             }
         }
         setForMan.showInfo();
@@ -27,8 +38,8 @@ public class Main {
         setForWoman.setCandyDone(new Candy[setForWoman.setSize]);
         setForWoman.congratulation();
         for (int j = 0; j < setForWoman.setSize; j++) {
-            for (int i = 0; i < candyAll.length; i++) {
-                setForWoman.fillCandySet(candyAll[i]);
+            for (int i = 0; i < candyAll.size(); i++) {
+                setForWoman.fillCandySet(candyAll.get(i));
             }
         }
         setForWoman.showInfo();
@@ -37,8 +48,8 @@ public class Main {
         setForKid.setCandyDone(new Candy[setForKid.setSize]);
         setForKid.congratulation();
         for (int j = 0; j < setForKid.setSize; j++) {
-            for (int i = 0; i < candyAll.length; i++) {
-                setForKid.fillCandySet(candyAll[i]);
+            for (int i = 0; i < candyAll.size(); i++) {
+                setForKid.fillCandySet(candyAll.get(i));
             }
         }
         setForKid.showInfo();
